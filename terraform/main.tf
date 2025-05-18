@@ -50,21 +50,21 @@ resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   policy = data.aws_iam_policy_document.allow_access_from_another_account.json
 }
 
-data "aws_iam_policy_document" "allow_access_from_another_account" {
+data "aws_iam_policy_document" "public_read" {
   statement {
+    actions = ["s3:GetObject"]
     principals {
-      type        = "AWS"
-      identifiers = ["928985689703"]
+      type        = "*"
+      identifiers = ["*"]
     }
-
-    actions = [
-      "s3:GetObject",
-      "s3:ListBucket",
-    ]
-
     resources = [
-      aws_s3_bucket.bucket_name.arn,
-      "${aws_s3_bucket.bucket_name.arn}/*",
+      "${aws_s3_bucket.bucket_name.arn}/*"
     ]
+    effect = "Allow"
   }
+}
+
+resource "aws_s3_bucket_policy" "public_read_policy" {
+  bucket = aws_s3_bucket.bucket_name.id
+  policy = data.aws_iam_policy_document.public_read.json
 }
