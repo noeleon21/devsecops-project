@@ -45,11 +45,6 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
-  bucket = aws_s3_bucket.bucket_name.id
-  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
-}
-
 
 data "aws_iam_policy_document" "public_read" {
   statement {
