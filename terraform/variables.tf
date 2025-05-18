@@ -25,5 +25,5 @@ variable "s3_website" {
 variable "s3_source" {
   description = "Local file path to upload"
   type        = string
-  default     = "../app/app.py" # or whatever path you want
+  default     = "../app/index.html" # or whatever path you want
 }
