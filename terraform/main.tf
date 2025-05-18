@@ -17,6 +17,16 @@ resource "aws_s3_bucket" "bucket_name" {
   bucket = var.s3_name
 }
 
+resource "aws_s3_bucket_public_access_block" "public_access" {
+  bucket = aws_s3_bucket.bucket_name.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+
 resource "aws_s3_object" "object_name" {
   bucket = aws_s3_bucket.bucket_name.id
   key    = var.s3_website
@@ -36,14 +46,6 @@ resource "aws_s3_bucket_website_configuration" "example" {
 
 }
 
-resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket = aws_s3_bucket.bucket_name.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
 
 
 data "aws_iam_policy_document" "public_read" {
