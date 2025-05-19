@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "your-terraform-state-bucket"
+    bucket         = "noel-terraform-state-bucket123456"
     key            = "terraform/infra.tfstate"
     region         = "us-east-1"
     encrypt        = true
