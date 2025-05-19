@@ -1,9 +1,9 @@
-output "s3-bucket-name" {
-  description = "name of the bucket"
-  value       = aws_s3_bucket.bucket_name
+output "instance-id" {
+  description = "id of instance"
+  value       = aws_instance.web.id
 }
 
-output "s3-key-name" {
-  description = "name of the key"
-  value       = aws_s3_object.object_name
+output "vpc-id" {
+  description = "vpc id"
+  value       = aws_vpc.my-vpc.id
 }
