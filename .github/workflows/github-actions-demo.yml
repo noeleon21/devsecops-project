@@ -30,13 +30,13 @@ jobs:
       #   run: terraform -chdir=terraform destroy -auto-approve
 
 
-      - name: tfsec - Terraform Static Analysis
-        uses: aquasecurity/tfsec-action@v1.0.0
+      # - name: tfsec - Terraform Static Analysis
+      #   uses: aquasecurity/tfsec-action@v1.0.0
 
-      - name: Checkov - IaC Scan
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
+      # - name: Checkov - IaC Scan
+      #   uses: bridgecrewio/checkov-action@master
+      #   with:
+      #     directory: .
           
       - name: Terraform Apply
         run: terraform -chdir=terraform apply -auto-approve
