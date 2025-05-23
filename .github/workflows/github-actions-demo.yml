@@ -26,8 +26,8 @@ jobs:
         run: terraform -chdir=terraform init
 
       
-      - name: Terraform destroy
-        run: terraform -chdir=terraform destroy -auto-approve
+      # - name: Terraform destroy
+      #   run: terraform -chdir=terraform destroy -auto-approve
 
 
       - name: tfsec - Terraform Static Analysis
