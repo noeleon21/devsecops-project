@@ -89,11 +89,43 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   to_port           = 22
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_mysql" {
+  security_group_id = aws_security_group.allowedports.id
+  cidr_ipv4         = aws_vpc.my-vpc.cidr_block
+  from_port         = 3306
+  ip_protocol       = "tcp"
+  to_port           = 3306
+}
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.allowedports.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+
+resource "aws_db_instance" "default" {
+  allocated_storage    = 10
+  db_name              = var.db_name
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t3.micro"
+  username             = var.db_username
+  password             = var.db_password
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible = true
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  db_subnet_group_name =  aws_db_subnet_group.default.name
+}
+
+resource "aws_db_subnet_group" "default" {
+  name       = "default-subnet-group"
+  subnet_ids = [aws_subnet.public.id]
+
+  tags = {
+    Name = "My DB Subnet Group"
+  }
 }
 
 # resource "aws_s3_bucket" "bucket_name" {
