@@ -23,26 +23,26 @@ variable "ami_id" {
   
 }
 
-# variable "db_username" {
-#   type = string
-#   description = "adminstrator username"
-#   sensitive = true
+variable "db_username" {
+  type = string
+  description = "adminstrator username"
+  sensitive = true
   
-# }
+}
 
-# variable "db_password" {
-#   type = string
-#   description = "Not a root password"
-#   sensitive = true
+variable "db_password" {
+  type = string
+  description = "Not a root password"
+  sensitive = true
   
-# }
+}
 
-# variable "db_name" {
-#   type = string
-#   description = "Not a root password"
-#   default = "mydbnoel"
+variable "db_name" {
+  type = string
+  description = "Not a root password"
+  default = "mydbnoel"
   
-# }
+}
 
 # variable "s3_name" {
 #   description = "The name of the S3 bucket"

@@ -25,8 +25,14 @@ provider "aws" {
 resource "aws_instance" "web" {
   ami           = var.ami_id
   instance_type = var.instance_type
+  vpc_security_group_ids = [aws_security_group.allowedports.id]
   subnet_id = aws_subnet.public_subnet.id
   associate_public_ip_address = true
+  user_data = <<EOF
+  #!/bin/bash
+  sudo dnf update -y
+  sudo dnf install mariadb105
+EOF
   tags = {
     Name = var.instance_name
   }
@@ -104,29 +110,29 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 }
 
 
-# resource "aws_db_instance" "default" {
-#   allocated_storage    = 10
-#   db_name              = var.db_name
-#   engine               = "mysql"
-#   engine_version       = "8.0"
-#   instance_class       = "db.t3.micro"
-#   username             = var.db_username
-#   password             = var.db_password
-#   parameter_group_name = "default.mysql8.0"
-#   skip_final_snapshot  = true
-#   publicly_accessible = true
-#   vpc_security_group_ids = [aws_security_group.web_sg.id]
-#   db_subnet_group_name =  aws_db_subnet_group.default.name
-# }
+resource "aws_db_instance" "default" {
+  allocated_storage    = 10
+  db_name              = var.db_name
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t3.micro"
+  username             = var.db_username
+  password             = var.db_password
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible = true
+  vpc_security_group_ids = [aws_security_group.allowedports.id]
+  db_subnet_group_name =  aws_db_subnet_group.default.name
+}
 
-# resource "aws_db_subnet_group" "default" {
-#   name       = "default-subnet-group"
-#   subnet_ids = [aws_subnet.public.id]
+resource "aws_db_subnet_group" "default" {
+  name       = "default-subnet-group"
+  subnet_ids = [aws_subnet.public_subnet.id]
 
-#   tags = {
-#     Name = "My DB Subnet Group"
-#   }
-# }
+  tags = {
+    Name = "My DB Subnet Group"
+  }
+}
 
 # resource "aws_s3_bucket" "bucket_name" {
 #   bucket = var.s3_name
