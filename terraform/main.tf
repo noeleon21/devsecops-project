@@ -26,7 +26,7 @@ resource "aws_instance" "web" {
   ami           = var.ami_id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.allowedports.id]
-  subnet_id = aws_subnet.public_subnet.id
+  subnet_id = aws_subnet.public_subnet_1
   associate_public_ip_address = true
   user_data = <<EOF
   #!/bin/bash
@@ -53,12 +53,12 @@ resource "aws_vpc" "my-vpc" {
   cidr_block = var.vpc_cidr
 }
 
-resource "aws_subnet" "public_subnet" {
-  vpc_id            = "10.0.0.0/20"
-  cidr_block        = aws_vpc.my-vpc.cidr_block
-  map_public_ip_on_launch = true
-  availability_zone = "us-east-1a"
-}
+# resource "aws_subnet" "public_subnet" {
+#   vpc_id            = "10.0.0.0/20"
+#   cidr_block        = aws_vpc.my-vpc.cidr_block
+#   map_public_ip_on_launch = true
+#   availability_zone = "us-east-1a"
+# }
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.my-vpc.id
@@ -71,7 +71,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "a" {
-  subnet_id = aws_subnet.public_subnet.id
+  subnet_id = aws_subnet.public_subnet_1.id
   route_table_id = aws_route_table.public.id
   
 }
@@ -136,17 +136,17 @@ resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.16.0/20"
   map_public_ip_on_launch = true
-  availability_zone       = "us-east-1b"
+  availability_zone       = "us-east-1a"
 }
 resource "aws_subnet" "public_subnet_2" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.32.0/20"
   map_public_ip_on_launch = true
-  availability_zone       = "us-east-1c"
+  availability_zone       = "us-east-1b"
 }
 resource "aws_db_subnet_group" "default" {
   name       = "default-subnet-group"
-  subnet_ids = [aws_subnet.public_subnet.id, aws_subnet.public_subnet_2.id]
+  subnet_ids = [aws_subnet.public_subnet_1, aws_subnet.public_subnet_2.id]
 
   tags = {
     Name = "My DB Subnet Group"
