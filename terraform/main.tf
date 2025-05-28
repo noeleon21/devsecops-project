@@ -28,18 +28,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.allowedports.id]
   subnet_id = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-  user_data = <<EOF
-  #!/bin/bash
-  sudo dnf update -y
-  sudo dnf install mariadb105 -y 
-
-  DB_HOST="your-db-endpoint"
-DB_USER="your-user"
-DB_PASS="your-pass"
-
-# Test MySQL connection
-mysql -h $DB_HOST -u$DB_USER -p$DB_PASS -e "SHOW DATABASES;"
-EOF
+  user_data = "${file("deploy.sh")}"
   tags = {
     Name = var.instance_name
   }

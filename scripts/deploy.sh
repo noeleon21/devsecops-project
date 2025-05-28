@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cd ../terraform
-terraform apply
+sudo dnf update -y
+sudo dnf install mariadb105 
