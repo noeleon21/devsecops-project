@@ -28,7 +28,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.allowedports.id]
   subnet_id = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-  user_data = "${file("deploy.sh")}"
+  user_data = "${file("scripts/deploy.sh")}"
   tags = {
     Name = var.instance_name
   }
