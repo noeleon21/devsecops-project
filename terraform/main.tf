@@ -147,7 +147,7 @@ resource "aws_subnet" "public_subnet_2" {
   availability_zone       = "us-east-1b"
 }
 resource "aws_db_subnet_group" "default" {
-  name       = "default-subnet-group"
+  name       = "rds-subnet-group-1"
   subnet_ids = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
   tags = {
