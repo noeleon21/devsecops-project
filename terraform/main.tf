@@ -131,10 +131,15 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = [aws_security_group.allowedports.id]
   db_subnet_group_name =  aws_db_subnet_group.default.name
 }
-
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id                  = aws_vpc.my-vpc.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1b"
+}
 resource "aws_db_subnet_group" "default" {
   name       = "default-subnet-group"
-  subnet_ids = [aws_subnet.public_subnet.id]
+  subnet_ids = [aws_subnet.public_subnet.id, aws_subnet.public_subnet_2.id]
 
   tags = {
     Name = "My DB Subnet Group"
