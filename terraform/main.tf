@@ -146,7 +146,7 @@ resource "aws_subnet" "public_subnet_2" {
 }
 resource "aws_db_subnet_group" "default" {
   name       = "default-subnet-group"
-  subnet_ids = [aws_subnet.public_subnet_1, aws_subnet.public_subnet_2.id]
+  subnet_ids = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
   tags = {
     Name = "My DB Subnet Group"
