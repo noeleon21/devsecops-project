@@ -54,7 +54,7 @@ resource "aws_vpc" "my-vpc" {
 }
 
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.my-vpc.id
+  vpc_id            = "10.0.0.0/20"
   cidr_block        = aws_vpc.my-vpc.cidr_block
   map_public_ip_on_launch = true
   availability_zone = "us-east-1a"
@@ -134,13 +134,13 @@ resource "aws_db_instance" "default" {
 
 resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.my-vpc.id
-  cidr_block              = "10.0.0.0/20"
+  cidr_block              = "10.0.16.0/20"
   map_public_ip_on_launch = true
   availability_zone       = "us-east-1b"
 }
 resource "aws_subnet" "public_subnet_2" {
   vpc_id                  = aws_vpc.my-vpc.id
-  cidr_block              = "10.0.16.0/20"
+  cidr_block              = "10.0.32.0/20"
   map_public_ip_on_launch = true
   availability_zone       = "us-east-1c"
 }
