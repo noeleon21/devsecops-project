@@ -79,7 +79,7 @@ resource "aws_security_group" "allowedports" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   security_group_id = aws_security_group.allowedports.id
-  cidr_ipv4         = aws_vpc.my-vpc.cidr_block
+  cidr_ipv4         = var.my_ip
   from_port         = 443
   ip_protocol       = "tcp"
   to_port           = 443
@@ -87,7 +87,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   security_group_id = aws_security_group.allowedports.id
-  cidr_ipv4         = aws_vpc.my-vpc.cidr_block
+  cidr_ipv4         = var.my_ip
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
@@ -95,7 +95,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_mysql" {
   security_group_id = aws_security_group.allowedports.id
-  cidr_ipv4         = aws_vpc.my-vpc.cidr_block
+  cidr_ipv4         = var.my_ip
   from_port         = 3306
   ip_protocol       = "tcp"
   to_port           = 3306
@@ -103,7 +103,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_mysql" {
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.allowedports.id
-  cidr_ipv4         = "0.0.0.0/0"
+  cidr_ipv4         = var.my_ip
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 

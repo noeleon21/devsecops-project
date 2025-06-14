@@ -24,22 +24,25 @@ variable "ami_id" {
 }
 
 variable "db_username" {
-  type = string
-  description = "adminstrator username"
-  sensitive = true
+    type = string
+    sensitive = true
   
 }
 
 variable "db_password" {
-  type = string
-  description = "Not a root password"
-  sensitive = true
+    type = string
+    sensitive = true
   
+}
+
+variable "my_ip" {
+    description = "Your IP address"
+    type = string 
 }
 
 variable "db_name" {
   type = string
-  description = "Not a root password"
+  description = "this is the database name"
   default = "mydbnoel"
   
 }
