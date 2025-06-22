@@ -27,8 +27,14 @@ resource "aws_instance" "web" {
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.allowedports.id]
   subnet_id = aws_subnet.public_subnet_1.id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   user_data = file("../scripts/deploy.sh")
+   metadata_options {
+    http_tokens = "required"
+  } 
+  root_block_device {
+        encrypted = true
+    }
   tags = {
     Name = var.instance_name
   }
@@ -118,21 +124,23 @@ resource "aws_db_instance" "default" {
   password             = var.db_password
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true
-  publicly_accessible = true
+  publicly_accessible = false
   vpc_security_group_ids = [aws_security_group.allowedports.id]
   db_subnet_group_name =  aws_db_subnet_group.default.name
-}
+  storage_encrypted  = true
+  backup_retention_period = 5
+ }
 
 resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.16.0/20"
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   availability_zone       = "us-east-1a"
 }
 resource "aws_subnet" "public_subnet_2" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.32.0/20"
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   availability_zone       = "us-east-1b"
 }
 resource "aws_db_subnet_group" "default" {
